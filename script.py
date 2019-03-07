@@ -24,6 +24,15 @@ def split_address(adr):
     sys.exit("Format d'addresse incorrect !!")
   return nbr, cidr
 
+def logical_and(ip, mask):
+  res_final = ""
+  for i in range(len(ip)):
+    if ip[i] == '1' and mask[i] == '1':
+      res_final = res_final + "1"
+    else:
+      res_final = res_final + "0"
+  return res_final
+
 add_ip = input("Votre addresse: ")
 res_ip = ""
 res_mask = ""
@@ -39,6 +48,5 @@ while len(mask) > n:
   res_ip = res_ip + (convert_to_binary(int(nbr_ip)))
   n += 1
 
-print (res_ip)
-print (res_mask)
+print (logical_and(res_ip, res_mask))
 
