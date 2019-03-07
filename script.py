@@ -44,38 +44,42 @@ def logical_and_or(ip, mask, choice):
                 res_final = res_final + "1"
     return res_final
 
-add_ip = input("Votre addresse: ")
-res_ip = ""
-res_mask = ""
+def main():
 
-(ip, cidr) = split_address(add_ip)
-mask = get_mask(int(cidr))
+    add_ip = input("Votre addresse: ")
+    res_ip = ""
+    res_mask = ""
 
-n = 0
-while len(ip) > n:
-    nbr_mask = mask[n]
-    nbr_ip = ip[n]
-    res_mask = res_mask + (convert_to_binary(int(nbr_mask)))
-    res_ip = res_ip + (convert_to_binary(int(nbr_ip)))
-    n += 1
+    (ip, cidr) = split_address(add_ip)
+    mask = get_mask(int(cidr))
 
-bin_reseau = logical_and_or(res_ip, res_mask, "and")
-inverse_mask = swap_binary(res_mask)
-bin_diff_mask = logical_and_or(bin_reseau, inverse_mask, "or")
+    n = 0
+    while len(ip) > n:
+        nbr_mask = mask[n]
+        nbr_ip = ip[n]
+        res_mask = res_mask + (convert_to_binary(int(nbr_mask)))
+        res_ip = res_ip + (convert_to_binary(int(nbr_ip)))
+        n += 1
 
-tab_reseau = [(bin_reseau[0:8]),(bin_reseau[8:16]),(bin_reseau[16:24]),(bin_reseau[24:32])]
-tab_diff = [(bin_diff_mask[0:8]),(bin_diff_mask[8:16]),(bin_diff_mask[16:24]),(bin_diff_mask[24:32])]
-ip_reseau = ""
-ip_diffusion = ""
-tail = 0
+    bin_reseau = logical_and_or(res_ip, res_mask, "and")
+    inverse_mask = swap_binary(res_mask)
+    bin_diff_mask = logical_and_or(bin_reseau, inverse_mask, "or")
 
-while tail < 4:
-    tmp_reseau = tab_reseau[tail]
-    tmp_diff = tab_diff[tail]
-    ip_reseau = ip_reseau + str((convert_to_int(tmp_reseau))) + "."
-    ip_diffusion =  ip_diffusion +  str((convert_to_int(tmp_diff))) + "."
-    tail +=1
+    tab_reseau = [(bin_reseau[0:8]),(bin_reseau[8:16]),(bin_reseau[16:24]),(bin_reseau[24:32])]
+    tab_diff = [(bin_diff_mask[0:8]),(bin_diff_mask[8:16]),(bin_diff_mask[16:24]),(bin_diff_mask[24:32])]
+    ip_reseau = ""
+    ip_diffusion = ""
+    tail = 0
 
-print ("L'addresse reseau est: %s" % ip_reseau)
-print ("L'addresse de diffusion est: %s" % ip_diffusion)
+    while tail < 4:
+        tmp_reseau = tab_reseau[tail]
+        tmp_diff = tab_diff[tail]
+        ip_reseau = ip_reseau + str((convert_to_int(tmp_reseau))) + "."
+        ip_diffusion =  ip_diffusion +  str((convert_to_int(tmp_diff))) + "."
+        tail +=1
 
+    print ("L'addresse reseau est: %s" % ip_reseau)
+    print ("L'addresse de diffusion est: %s" % ip_diffusion)
+
+if __name__ == '__main__':
+    main()
